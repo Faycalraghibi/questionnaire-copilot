@@ -328,3 +328,46 @@ $ make test
 ### Questions
 
 None.
+
+## 2026-11-18: Phase 4, drafting and checks
+
+### What was built
+
+- Dependencies: added `openai` (3.55.0) and `anthropic` (2.10.0) in `pyproject.toml` and `uv.lock`.
+- `qc/config.py` and `.env.example`: added `LLM_PROVIDER`, `LLM_MODEL`, `OPENAI_API_KEY`,
+  `ANTHROPIC_API_KEY`, `MAX_EVAL_COST_USD=1.00` (decision D22), and dated `MODEL_PRICES_USD_PER_M`
+  (`gpt-4o-mini` default for OpenAI, `claude-haiku-4-5` default for Anthropic).
+- `qc/llm.py`: `LLM` protocol, `LLMUsage`, `OpenAILLM` (`chat.completions.parse`), `AnthropicLLM`
+  (`messages.parse`), `StubLLM` reading `tests/fixtures/stub/*.json`, and `CostCapExceeded` spend
+  guard.
+- `qc/checks.py`: `Draft` schema and `check_draft` validating retrieved chunk IDs, current policy
+  versions, `can_answer`/non-empty citations, >2 policy confidence cap (`medium`), and regex number
+  check against cited passages (`low` cap).
+- `qc/draft.py`: `draft_question` implementing library reuse, `MIN_EVIDENCE` gate (zero model
+  calls when below threshold), `DRAFT_SYSTEM_PROMPT` with decision D16 ("absence of a statement is
+  not a No"), `check_draft`, and `run_steps` / `drafts` persistence.
+- `qc/xlsx_io.py`: updated `_format_cells` so text answers stored directly in `drafts.short_answer`
+  export cleanly.
+- `data/draft_sample.py`: script to draft 10 questions of Questionnaire A using `get_llm()`.
+- Fixtures & tests: `tests/fixtures/stub/*.json` (including all 4 near-miss unanswerable fixtures
+  per D16), `tests/test_checks.py` (10 tests), and `tests/test_needs_input.py` (1 test).
+
+### Acceptance output
+
+```
+$ make lint
+All checks passed!
+46 files already formatted
+$ make test
+============================= 193 passed in 27.55s =============================
+```
+
+### Decisions and notes
+
+- Live 10-question run (`uv run python -m data.draft_sample`): not run because no `.env` file or
+  `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` is configured in this environment. Ready to run once a key
+  is added to `.env`.
+
+### Questions
+
+None.

@@ -1,0 +1,11 @@
+{
+  "match": "pci dss",
+  "output": {
+    "can_answer": false,
+    "short_answer": null,
+    "answer_text": null,
+    "explanation": "The compliance policy covers SOC 2 Type II and planned ISO 27001 certification, but does not mention PCI DSS certification.",
+    "citation_chunk_ids": [],
+    "confidence": "low"
+  }
+}

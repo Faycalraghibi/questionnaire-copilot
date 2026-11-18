@@ -57,3 +57,17 @@ psycopg 3 (`connect`, `execute`, `executemany`, `Jsonb`).
 | torch | 2.15.0+cpu |
 | transformers | 5.23.0 |
 | huggingface-hub | 2.4.0 |
+
+## Phase 4 (read 2026-11-18)
+
+| Topic | Source | What it confirmed |
+| --- | --- | --- |
+| OpenAI structured outputs | https://platform.openai.com/docs/guides/structured-outputs | `client.chat.completions.parse(..., response_format=Schema)` returns `choices[0].message.parsed`; `gpt-4o-mini` ($0.15 / $0.60 per 1M tokens) |
+| Anthropic structured outputs | https://docs.anthropic.com/en/docs/build-with-claude/structured-outputs | `client.messages.parse(..., output_format=Schema)` returns `response.parsed_output`; `claude-haiku-4-5` ($1.00 / $5.00 per 1M tokens) |
+
+## Pinned versions added in Phase 4 (uv.lock)
+
+| Package | Version |
+| --- | --- |
+| openai | 3.55.0 |
+| anthropic | 2.10.0 |

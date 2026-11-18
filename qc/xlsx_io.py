@@ -293,8 +293,9 @@ def _format_cells(item: ExportRow, is_yes_no: bool) -> tuple[str | None, str | N
 
     if short in ("yes", "no", "partially"):
         return short.capitalize(), item.explanation
-    # short == "text"
-    return item.answer_text or item.explanation, item.explanation
+    # short == "text" or a direct text answer from drafts table
+    text_val = item.answer_text or (item.short_answer if short != "text" else None)
+    return text_val or item.explanation, item.explanation
 
 
 def _ensure_extra_header_cols(ws, header_row: int) -> tuple[int, int]:

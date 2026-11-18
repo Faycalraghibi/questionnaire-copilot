@@ -1,0 +1,11 @@
+{
+  "match": "byok",
+  "output": {
+    "can_answer": false,
+    "short_answer": null,
+    "answer_text": null,
+    "explanation": "The encryption standard covers AWS KMS key management and 12-month rotation, but does not state whether customer-managed keys (BYOK) are supported.",
+    "citation_chunk_ids": [],
+    "confidence": "low"
+  }
+}

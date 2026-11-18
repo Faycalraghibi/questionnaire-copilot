@@ -1,0 +1,11 @@
+{
+  "match": "how many employees have production database",
+  "output": {
+    "can_answer": false,
+    "short_answer": null,
+    "answer_text": null,
+    "explanation": "The access control policy describes just-in-time privileged access up to 4 hours, but does not specify how many employees have production database access.",
+    "citation_chunk_ids": [],
+    "confidence": "low"
+  }
+}

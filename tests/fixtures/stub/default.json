@@ -1,0 +1,11 @@
+{
+  "match": "default",
+  "output": {
+    "can_answer": true,
+    "short_answer": "yes",
+    "answer_text": null,
+    "explanation": "Supported by the cited policy passage.",
+    "citation_chunk_ids": [1],
+    "confidence": "high"
+  }
+}

@@ -5,6 +5,8 @@ description = "Answer security questionnaires from your current policies, with a
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
+    "anthropic>=0.50.0",
+    "openai>=1.70.0",
     "openpyxl>=3.1.5",
     "pdfplumber>=0.11.0",
     "psycopg[binary]>=3.3.9",
