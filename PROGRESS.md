@@ -439,3 +439,46 @@ $ make test
 ### Questions
 
 None.
+
+## 2026-11-18: Phase 7, evaluation
+
+### What was built
+
+- Calibration on Questionnaire A only (decision D4, logged as D32 in `docs/decisions.md`):
+  - `MIN_EVIDENCE = 0.541` (lowest answerable score on A is `0.5423`, catching 4 of 8
+    unanswerable questions before any model call).
+  - `REUSE_THRESHOLD = 0.92` (highest cosine similarity between different-fact questions on A is
+    `0.9164` for A-016 vs A-020).
+- `qc/evaluate.py` and `Makefile` (`make eval`):
+  - Implements the 5-step end-to-end evaluation: reset & seed, draft A with empty library,
+    simulate perfect reviewer (D9) to populate `answer_library`, draft held-out B, ingest
+    `data-retention` v4 and verify staleness detection.
+  - Applies `"a | b"` key phrase alternatives (D24), case-insensitive phrase matching and `yes`/`no`
+    short-answer equality (D11), and list-based citation checks (D8).
+  - Writes `evals/report.md` with per-questionnaire tables, staleness check, and failures list.
+- `tests/test_evaluate.py` (3 tests): verifies `"a | b"` alternatives, answer/citation checking, and
+  end-to-end `run_evaluation` with `StubLLM` and `FakeEmbedder`.
+
+### Acceptance output
+
+```
+$ make lint
+All checks passed!
+62 files already formatted
+$ make test
+============================= 199 passed in 35.38s =============================
+$ make eval   # run with LLM_PROVIDER=stub (no API key in .env)
+Wrote D:\Projects\Upwork Projects\questionnaire-copilot\evals\report.md
+A correctness=7.7%, B correctness=51.4%, B reuse=62.5%, staleness=100.0%
+```
+
+### Decisions and notes
+
+- `make eval` ran with `LLM_PROVIDER=stub` because no `.env` API key is present in this
+  environment; `evals/report.md` records `stub / stub` explicitly (rules section 10: real numbers
+  only). Re-run `make eval` after setting `OPENAI_API_KEY` or `ANTHROPIC_API_KEY` in `.env` for
+  live model metrics.
+
+### Questions
+
+None.

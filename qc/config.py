@@ -26,8 +26,8 @@ class Settings(BaseSettings):
     database_url: str = "postgresql://qc:qc@localhost:5433/qc"
     embed_provider: str = "e5"
     embed_model: str = "intfloat/multilingual-e5-small"
-    reuse_threshold: float = 0.90
-    min_evidence: float = 0.30
+    reuse_threshold: float = 0.92
+    min_evidence: float = 0.541
     chunk_max_chars: int = 1200
 
     llm_provider: str = "stub"

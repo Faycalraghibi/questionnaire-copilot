@@ -19,8 +19,7 @@ test:
 	uv run pytest -m "not live"
 
 eval:
-	@echo "make eval is built in Phase 7 (evaluation)."
-	@exit 1
+	uv run python -m qc.evaluate
 
 lint:
 	uv run ruff check .

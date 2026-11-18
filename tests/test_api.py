@@ -26,6 +26,7 @@ def _make_sample_xlsx_bytes() -> bytes:
 
 def test_api_upload_draft_review_export(db_conn, tmp_path: Path, monkeypatch):
     monkeypatch.setenv("UPLOADS_DIR", str(tmp_path / "uploads"))
+    monkeypatch.setenv("MIN_EVIDENCE", "0.1")
     from qc.config import get_settings
 
     get_settings.cache_clear()

@@ -95,3 +95,7 @@ decisions continue from D23. Each entry says when it takes effect.
 - **D31 (Phase 1 review).** `secure-sdlc` v1 `effective_date` changed from `2025-08-01` to
   `2026-03-01` so it is not earlier than fact F27 ("the last one was in February 2026"). Facts are
   kept unchanged.
+- **D32 (Phase 7).** Calibrated thresholds on Questionnaire A only (D4): `MIN_EVIDENCE = 0.541`
+  (lowest answerable score on A is `0.5423`, catching 4 of 8 unanswerable questions without an LLM
+  call) and `REUSE_THRESHOLD = 0.92` (highest cosine similarity between different-fact questions on
+  A is `0.9164` for A-016 vs A-020).
