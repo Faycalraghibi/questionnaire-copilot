@@ -1,0 +1,45 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: qc
+          POSTGRES_PASSWORD: qc
+          POSTGRES_DB: qc
+        options: >-
+          --health-cmd "pg_isready -U qc -d qc"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+        ports:
+          - 5433:5432
+    env:
+      DATABASE_URL: postgresql://qc:qc@localhost:5433/qc
+      QC_REQUIRE_DB: "1"
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          enable-cache: true
+
+      - name: Install
+        run: uv sync --locked
+
+      - name: Lint
+        run: make lint
+
+      - name: Seed
+        run: make seed
+
+      - name: Test (offline, never calls a paid API)
+        run: make test
