@@ -13,6 +13,7 @@ from docx import Document
 
 from qc.config import get_settings
 from qc.embed import Embedder, get_embedder, vector_literal
+from qc.library import mark_stale_for_policy
 from qc.markdown import parse_policy
 
 
@@ -211,13 +212,13 @@ def chunk_sections(
     return chunks
 
 
-def _refresh_current_version(conn: psycopg.Connection, policy_id: str) -> None:
+def _refresh_current_version(conn: psycopg.Connection, policy_id: str) -> int | None:
     row = conn.execute(
         "SELECT MAX(version) FROM policy_versions WHERE policy_id = %s", (policy_id,)
     ).fetchone()
     if not row or row[0] is None:
-        return
-    latest_ver = row[0]
+        return None
+    latest_ver = int(row[0])
     conn.execute(
         "UPDATE policy_versions SET is_current = FALSE "
         "WHERE policy_id = %s AND is_current AND version <> %s",
@@ -227,6 +228,7 @@ def _refresh_current_version(conn: psycopg.Connection, policy_id: str) -> None:
         "UPDATE policy_versions SET is_current = TRUE WHERE policy_id = %s AND version = %s",
         (policy_id, latest_ver),
     )
+    return latest_ver
 
 
 def ingest_policy(
@@ -261,7 +263,9 @@ def ingest_policy(
         "effective_date = EXCLUDED.effective_date, source_file = EXCLUDED.source_file",
         (pid, ver, eff, src),
     )
-    _refresh_current_version(conn, pid)
+    latest_ver = _refresh_current_version(conn, pid)
+    if latest_ver is not None:
+        mark_stale_for_policy(conn, pid, latest_ver)
 
     specs = chunk_sections(parsed.sections)
     existing = conn.execute(

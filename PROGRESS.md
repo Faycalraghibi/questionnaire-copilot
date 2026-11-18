@@ -371,3 +371,36 @@ $ make test
 ### Questions
 
 None.
+
+## 2026-11-18: Phase 5, library and staleness
+
+### What was built
+
+- `qc/library.py`:
+  - `review_draft`: records `approve`, `edit`, and `reject` actions in `reviews`, updates
+    `drafts.status`, and saves approved/edited answers into `answer_library` with `query: `
+    embeddings and `policy_versions`.
+  - `mark_stale_for_policy`: flags `stale = TRUE` on non-stale `answer_library` entries whose
+    `policy_versions` contain an older version of the updated policy.
+  - `reapprove_library_entry`: updates citations and `policy_versions` to current versions and
+    clears `stale = FALSE`.
+  - `count_stale`: returns the count of stale entries for the UI banner.
+- `qc/ingest.py`: hooked `mark_stale_for_policy` into `ingest_policy` whenever a policy version is
+  ingested.
+- `tests/test_staleness.py` (2 tests): verifies that ingesting `data-retention` v4 flags only
+  dependent library entries (`stale = TRUE`), blocks reuse while stale, resumes reuse after
+  re-approval, and tests `approve`/`edit`/`reject` workflows.
+
+### Acceptance output
+
+```
+$ make lint
+All checks passed!
+49 files already formatted
+$ make test
+============================= 195 passed in 23.56s =============================
+```
+
+### Questions
+
+None.
