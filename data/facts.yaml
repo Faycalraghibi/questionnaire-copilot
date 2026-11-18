@@ -1,0 +1,36 @@
+# Ground-truth facts from spec section 6.1.
+# `markers` are exact substrings that must appear exactly once in the current version of the
+# policy, inside the named section, and in no other current policy (tests/test_data.py).
+- {id: F01, policy_id: infosec-policy, version: 2, section: Governance, markers: ["The security program is owned by the Head of Security and reviewed by the CEO annually"]}
+- {id: F02, policy_id: infosec-policy, version: 2, section: Governance, markers: ["All security policies are reviewed at least once a year"]}
+- {id: F03, policy_id: infosec-policy, version: 2, section: Training, markers: ["security awareness training at hire and every year after"]}
+- {id: F04, policy_id: infosec-policy, version: 2, section: Training, markers: ["Phishing simulations run every quarter"]}
+- {id: F05, policy_id: access-control, version: 1, section: Authentication, markers: ["SSO with multi-factor authentication is required for all production and admin systems"]}
+- {id: F06, policy_id: access-control, version: 1, section: Access reviews, markers: ["User access is reviewed every quarter"]}
+- {id: F07, policy_id: access-control, version: 1, section: Offboarding, markers: ["Access is revoked within 24 hours of departure"]}
+- {id: F08, policy_id: access-control, version: 1, section: Privileged access, markers: ["Production admin access is granted just in time, for at most 4 hours, with approval"]}
+- {id: F09, policy_id: access-control, version: 1, section: Authorization, markers: ["role-based access following least privilege"]}
+- {id: F10, policy_id: encryption-standard, version: 2, section: Data at rest, markers: ["AES-256 encryption at rest for databases, backups and object storage"]}
+- {id: F11, policy_id: encryption-standard, version: 2, section: Data in transit, markers: ["TLS 1.2 or higher for all external traffic", "TLS 1.3 is preferred"]}
+- {id: F12, policy_id: encryption-standard, version: 2, section: Key management, markers: ["Keys are managed in AWS KMS and rotated every 12 months"]}
+- {id: F13, policy_id: data-retention, version: 3, section: Customer data, markers: ["Customer data is deleted within 30 days after contract end"]}
+- {id: F14, policy_id: data-retention, version: 3, section: Backups, markers: ["Backups are kept for 35 days"]}
+- {id: F15, policy_id: data-retention, version: 3, section: Logs, markers: ["Security logs are kept for 1 year"]}
+- {id: F16, policy_id: incident-response, version: 1, section: Notification, markers: ["Affected customers are notified within 72 hours of a confirmed breach"]}
+- {id: F17, policy_id: incident-response, version: 1, section: Testing, markers: ["The incident response plan is tested once a year with a tabletop exercise"]}
+- {id: F18, policy_id: incident-response, version: 1, section: On-call, markers: ["A security on-call rotation covers 24/7"]}
+- {id: F19, policy_id: business-continuity, version: 1, section: Objectives, markers: ["RPO 4 hours, RTO 8 hours"]}
+- {id: F20, policy_id: business-continuity, version: 1, section: Testing, markers: ["Disaster recovery is tested twice a year"]}
+- {id: F21, policy_id: business-continuity, version: 1, section: Hosting, markers: ["Production runs in AWS eu-west-1 (Ireland) across multiple availability zones", "backups are stored in eu-central-1 (Frankfurt)"]}
+- {id: F22, policy_id: vendor-management, version: 1, section: Assessment, markers: ["Critical vendors are assessed every year"]}
+- {id: F23, policy_id: vendor-management, version: 1, section: Subprocessors, markers: ["The subprocessor list is published on the website", "customers are notified 30 days before changes"]}
+- {id: F24, policy_id: vendor-management, version: 1, section: Contracts, markers: ["A data processing agreement is signed with every subprocessor"]}
+- {id: F25, policy_id: secure-sdlc, version: 1, section: Code review, markers: ["Every change requires review by a second engineer"]}
+- {id: F26, policy_id: secure-sdlc, version: 1, section: Testing, markers: ["Static analysis runs on every pull request", "dependencies are scanned daily"]}
+- {id: F27, policy_id: secure-sdlc, version: 1, section: Penetration testing, markers: ["An independent penetration test is performed every year", "the last one was in February 2026"]}
+- {id: F28, policy_id: logging-monitoring, version: 1, section: Logging, markers: ["Logs are centralized and alerts are monitored 24/7"]}
+- {id: F29, policy_id: hr-security, version: 1, section: Screening, markers: ["Background checks are performed for all employees where legally permitted"]}
+- {id: F30, policy_id: hr-security, version: 1, section: Agreements, markers: ["Confidentiality agreements are signed at hire"]}
+- {id: F31, policy_id: compliance, version: 1, section: Certifications, markers: ["SOC 2 Type II report is available under NDA", "period ending 2026-06-30"]}
+- {id: F32, policy_id: compliance, version: 1, section: Certifications, markers: ["not ISO 27001 certified", "certification is planned for 2027"]}
+- {id: F33, policy_id: compliance, version: 1, section: Data location, markers: ["Customer data is stored and processed in the EU only"]}
