@@ -25,6 +25,8 @@ module-root = ""
 [tool.ruff]
 line-length = 100
 target-version = "py312"
+# Specs are input documents: never reformat them (ruff also formats Markdown code blocks).
+extend-exclude = ["specs"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
