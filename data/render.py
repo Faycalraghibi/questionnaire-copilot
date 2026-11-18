@@ -16,7 +16,7 @@ import yaml
 from docx import Document
 from reportlab import rl_config
 from reportlab.lib.pagesizes import A4
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import cm
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
 
@@ -43,6 +43,13 @@ def _subtitle(doc: PolicyDoc) -> str:
 
 def render_pdf(doc: PolicyDoc, path: Path) -> None:
     styles = getSampleStyleSheet()
+    section_style = ParagraphStyle(
+        "SectionHeading",
+        parent=styles["Heading2"],
+        fontName="Helvetica-Bold",
+        fontSize=14,
+        leading=18,
+    )
     story = [
         Paragraph(escape(doc.title), styles["Title"]),
         Paragraph(escape(_subtitle(doc)), styles["Italic"]),
@@ -51,7 +58,7 @@ def render_pdf(doc: PolicyDoc, path: Path) -> None:
     for para in doc.preamble:
         story.append(Paragraph(escape(para), styles["BodyText"]))
     for name, paras in doc.sections:
-        story.append(Paragraph(escape(name), styles["Heading2"]))
+        story.append(Paragraph(escape(name), section_style))
         for para in paras:
             story.append(Paragraph(escape(para), styles["BodyText"]))
     pdf = SimpleDocTemplate(
@@ -72,7 +79,7 @@ def render_docx(doc: PolicyDoc, path: Path) -> None:
     for para in doc.preamble:
         out.add_paragraph(para)
     for name, paras in doc.sections:
-        out.add_heading(name, level=1)
+        out.add_heading(name, level=2)
         for para in paras:
             out.add_paragraph(para)
     props = out.core_properties

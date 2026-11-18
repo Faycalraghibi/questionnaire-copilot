@@ -203,3 +203,84 @@ Key phrases: "/" separates accepted alternatives (written "|" in the YAML). Unan
   `data/policies/secure-sdlc-v1.md` and `tests/test_data.py`; facts kept unchanged.
 - **Key phrase alternatives (D24):** Approved for `"a | b"` syntax; Phase 7 correctness check must
   apply these alternatives.
+
+## 2026-11-18: Phase 2, ingestion and retrieval
+
+### What was built
+
+- Dependencies: added `pdfplumber` (0.11.10), `sentence-transformers` (6.3.0), and CPU-only `torch`
+  (2.15.0+cpu) via `[tool.uv.sources]` (`pytorch-cpu` index, decision D17).
+- `qc/sql/002_chunk_hash.sql`: added `text_hash` column and index to `chunks`.
+- `qc/embed.py`: `Embedder` protocol, `E5Embedder` (`intfloat/multilingual-e5-small` with `query: `
+  and `passage: ` prefixes and `normalize_embeddings=True`), `FakeEmbedder` for deterministic offline
+  unit tests (decision D18).
+- `data/render.py` and `qc/ingest.py`:
+  - PDF headings rendered in bold 14pt (`SectionHeading`) and detected by fontname/size via
+    `pdfplumber`; DOCX headings rendered in built-in `Heading 2` and detected by style name.
+  - Markdown, PDF, and DOCX parse into sections, split into paragraph-bounded chunks, and store
+    SHA-256 `text_hash`. `ingest_policy` skips re-embedding when `(section, text_hash)` is
+    unchanged and updates `is_current` on `policy_versions`.
+- `data/seed.py`: switched to `qc.ingest` (`sync_policies`), keeping `make seed` idempotent.
+- `qc/retrieve.py`: library-first cosine search (`REUSE_THRESHOLD=0.90`, non-stale only), followed
+  by hybrid search (`0.6 * vec_score + 0.4 * (ft_raw / (ft_raw + 1))`) over `is_current = TRUE`
+  chunks using OR-joined `websearch_to_tsquery` (decision D2), plus `search_policies_fulltext`.
+- `data/check_retrieval.py`: Phase 2 acceptance script printing top 3 chunks for 5 sample questions.
+- Tests: `tests/test_ingest.py` (including section-name equality across all 3 rendered files vs
+  source Markdown, and hash-skip idempotency) and `tests/test_retrieve.py` (including non-current
+  exclusion in both hybrid and full-text-only search, library reuse, and `@pytest.mark.slow` real
+  E5 retrieval).
+- `.github/workflows/ci.yml`: added `HF_HOME` and `actions/cache@v4` so slow E5 tests run in CI.
+
+### Acceptance output
+
+```
+$ make seed   # first run
+11 policies, 14 versions, 60 + 40 questions (72 chunks: 72 embedded, 0 cached)
+$ make seed   # second run (idempotent)
+11 policies, 14 versions, 60 + 40 questions (72 chunks: 0 embedded, 72 cached)
+$ make lint
+All checks passed!
+38 files already formatted
+$ make test
+============================= 175 passed in 24.18s =============================
+$ uv run python -m data.check_retrieval
+
+A-003: How frequently are your security policies reviewed and updated?
+  1. infosec-policy v2 | Governance (score=0.6660, vec=0.8877, ft=0.3333)
+  2. encryption-standard v2 | Review (score=0.6146, vec=0.8761, ft=0.2222)
+  3. vendor-management v1 | Assessment (score=0.6007, vec=0.8530, ft=0.2222)
+
+A-009: How long are customer data retained after contract termination?
+  1. data-retention v3 | Customer data (score=0.6663, vec=0.9054, ft=0.3077)
+  2. vendor-management v1 | Contracts (score=0.5997, vec=0.8329, ft=0.2500)
+  3. compliance v1 | Data location (score=0.5899, vec=0.8166, ft=0.2500)
+
+A-012: How often are encryption keys rotated?
+  1. encryption-standard v2 | Key management (score=0.6131, vec=0.8551, ft=0.2500)
+  2. encryption-standard v2 | Data at rest (score=0.5649, vec=0.8165, ft=0.1875)
+  3. incident-response v1 | On-call (score=0.5632, vec=0.8435, ft=0.1429)
+
+A-019: Do you support customer-managed encryption keys (BYOK)?
+  [unanswerable] best_score=0.5900
+  1. encryption-standard v2 | Key management (score=0.5900, vec=0.8167, ft=0.2500)
+  2. compliance v1 | Data location (score=0.5762, vec=0.8123, ft=0.2222)
+  3. logging-monitoring v1 | Scope (score=0.5619, vec=0.8114, ft=0.1875)
+
+A-044: Where is customer data hosted?
+  1. compliance v1 | Data location (score=0.6131, vec=0.8552, ft=0.2500)
+  2. data-retention v3 | Customer data (score=0.6079, vec=0.8313, ft=0.2727)
+  3. encryption-standard v2 | Scope (score=0.5604, vec=0.8090, ft=0.1875)
+```
+
+### Decisions and notes
+
+- `A-019` (BYOK, unanswerable) scores `0.5900` against `encryption-standard v2 | Key management`,
+  close to `A-012` (`0.6131`) and `A-044` (`0.6131`). `MIN_EVIDENCE` will catch completely off-topic
+  questions, while near-miss unanswerables (BYOK, customer pentests, PCI) will also rely on the
+  Phase 4 prompt rule ("absence of a statement is not a No", decision D16).
+- `tests/test_data.py` updated to check `Heading 2` in rendered DOCX to match the Phase 2
+  rendering rule.
+
+### Questions
+
+None.

@@ -38,3 +38,22 @@ psycopg 3 (`connect`, `execute`, `executemany`, `Jsonb`).
 | pytest | 9.2.0 |
 | ruff | 0.17.5 |
 | pgvector extension (Docker) | 0.8.7 |
+
+## Phase 2 (read 2026-11-18)
+
+| Topic | Source | What it confirmed |
+| --- | --- | --- |
+| uv PyTorch CPU index | https://docs.astral.sh/uv/guides/integration/pytorch/ | `[[tool.uv.index]]` with `https://download.pytorch.org/whl/cpu`, `explicit = true`, and `[tool.uv.sources]` `torch = [{ index = "pytorch-cpu" }]` |
+| pdfplumber word attrs | https://pypi.org/project/pdfplumber/ | `page.extract_words(extra_attrs=["fontname", "size"])` groups words by font and size |
+| multilingual-e5-small | https://huggingface.co/intfloat/multilingual-e5-small | `"query: "` prefix for queries, `"passage: "` prefix for passages, `normalize_embeddings=True` |
+| GitHub Actions HF cache | https://huggingface.co/docs/huggingface_hub/guides/manage-cache | `HF_HOME` env var with `actions/cache@v4` caches downloaded model files across CI runs |
+
+## Pinned versions added in Phase 2 (uv.lock)
+
+| Package | Version |
+| --- | --- |
+| pdfplumber | 0.11.10 |
+| sentence-transformers | 6.3.0 |
+| torch | 2.15.0+cpu |
+| transformers | 5.23.0 |
+| huggingface-hub | 2.4.0 |

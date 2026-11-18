@@ -244,7 +244,7 @@ def test_rendered_policies(generated):
     for pid in ["incident-response", "business-continuity"]:
         assert (generated["dir"] / by_id[pid]["file"]).read_bytes().startswith(b"%PDF")
     docx = Document(str(generated["dir"] / by_id["vendor-management"]["file"]))
-    headings = [p.text for p in docx.paragraphs if p.style.name == "Heading 1"]
+    headings = [p.text for p in docx.paragraphs if p.style.name == "Heading 2"]
     assert headings == [name for name, _ in CURRENT["vendor-management"].sections]
 
 
