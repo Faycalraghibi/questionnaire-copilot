@@ -404,3 +404,38 @@ $ make test
 ### Questions
 
 None.
+
+## 2026-11-18: Phase 6, API and UI
+
+### What was built
+
+- Dependencies: added `fastapi` (0.164.0), `uvicorn` (0.54.0), `streamlit` (1.67.0), `httpx`
+  (0.28.1), and `python-multipart` (0.0.34).
+- `qc/config.py` and `.env.example`: added `REVIEWERS` (three synthetic names, decision D13),
+  `API_URL`, `api_host`, `api_port`, and `uploads_dir` (`var/uploads`).
+- `qc/api.py`: FastAPI endpoints for `/health`, `/config/reviewers`, `/policies`,
+  `/policies/upload`, `/questionnaires`, `/questionnaires/upload` (with LLM header fallback),
+  `/questionnaires/{id}/draft`, `/questionnaires/{id}/drafts` (with cited passage texts),
+  `/drafts/{id}/review`, `/library` (with current passage texts for stale comparison),
+  `/library/{id}/reapprove`, `/questionnaires/{id}/export`, and `/eval/report`.
+- `ui/`: Streamlit multipage app (`.streamlit/config.toml`, `ui/client.py`, `ui/app.py`, and
+  6 pages: `1_Library.py`, `2_Questionnaires.py`, `3_Review.py`, `4_Answer_Library.py`,
+  `5_Export.py`, `6_Quality.py`) including stale-answer banners and side-by-side re-approval (D12).
+- `qc/run_all.py` and `Makefile`: cross-platform `make run` launcher starting FastAPI and
+  Streamlit (decision D21).
+- `tests/test_api.py`: end-to-end test of policy upload, questionnaire upload, drafting, review,
+  library, and Excel export with `StubLLM` and `FakeEmbedder`.
+
+### Acceptance output
+
+```
+$ make lint
+All checks passed!
+58 files already formatted
+$ make test
+============================= 196 passed in 23.82s =============================
+```
+
+### Questions
+
+None.

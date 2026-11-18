@@ -13,8 +13,7 @@ seed:
 	uv run python -m data.seed
 
 run:
-	@echo "make run is built in Phase 6 (API and UI)."
-	@exit 1
+	uv run python -m qc.run_all
 
 test:
 	uv run pytest -m "not live"

@@ -71,3 +71,9 @@ psycopg 3 (`connect`, `execute`, `executemany`, `Jsonb`).
 | --- | --- |
 | openai | 3.55.0 |
 | anthropic | 2.10.0 |
+
+## Phase 6 (read 2026-11-18)
+
+| Topic | Source | What it confirmed |
+| --- | --- | --- |
+| FastAPI / Streamlit | PyPI via `uv sync` | `fastapi==0.164.0`, `uvicorn==0.54.0`, `streamlit==1.67.0`, `httpx==0.28.1`, `python-multipart==0.0.34` |

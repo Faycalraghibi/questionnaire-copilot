@@ -36,6 +36,12 @@ class Settings(BaseSettings):
     anthropic_api_key: str = ""
     max_eval_cost_usd: float = 1.00
 
+    reviewers: str = "Amira Haddad,Lucas Meyer,Priya Nair"
+    api_host: str = "127.0.0.1"
+    api_port: int = 8000
+    api_url: str = "http://127.0.0.1:8000"
+    uploads_dir: str = "var/uploads"
+
 
 @lru_cache
 def get_settings() -> Settings:
