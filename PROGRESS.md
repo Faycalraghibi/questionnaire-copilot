@@ -284,3 +284,47 @@ A-044: Where is customer data hosted?
 ### Questions
 
 None.
+
+## 2026-11-18: Phase 3, Excel import and export
+
+### What was built
+
+- `qc/xlsx_io.py`:
+  - `read_questionnaire`: scans the first 15 rows per sheet for a header row (>= 3 non-empty text
+    cells), scores headers across the 3 column groups (decision D3: question, answer, explanation)
+    plus optional ID column, calls an optional `fallback_resolver` once when ambiguous, and extracts
+    questions (15+ chars) with `sheet`, `row`, `col_question`, `col_answer`. Supports `.xlsx` and
+    `.csv`.
+  - `export_questionnaire`: copies the source file and writes answers into the detected answer
+    column (applying decision D10 for Yes/No/N.A. columns), explanations into the explanation or
+    comments column, and appends `Source` and `Status` columns at the end of the header row without
+    modifying any other cells. Supports `.xlsx` and `.csv` (decision D13).
+- `data/seed.py`: switched from `read_known_layout` to `qc.xlsx_io.read_questionnaire` (decision D1).
+- Tests:
+  - `tests/test_xlsx_detect.py` (4 tests): A layout (merged title block, header row 4, 60 questions),
+    B layout (two sheets, `B-001`..`B-040`), ambiguous header fallback resolver called once, CSV
+    detection.
+  - `tests/test_xlsx_export.py` (3 tests): A export (answers in `Response`, `Source` and `Status`
+    appended, merged title and question cells untouched), B export (Yes/No/N.A. rules per D10), CSV
+    export.
+
+### Acceptance output
+
+```
+$ make seed
+11 policies, 14 versions, 60 + 40 questions (72 chunks: 0 embedded, 72 cached)
+$ make lint
+All checks passed!
+41 files already formatted
+$ make test
+============================= 182 passed in 29.14s =============================
+```
+
+### Decisions and notes
+
+- `qc/xlsx_io.py` accepts an optional `fallback_resolver` callable for ambiguous headers so Phase 3
+  stays decoupled until the LLM wrapper is built in Phase 4.
+
+### Questions
+
+None.

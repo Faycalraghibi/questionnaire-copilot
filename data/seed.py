@@ -1,8 +1,7 @@
 """`make seed`: generate the synthetic files, migrate, and load the database.
 
-Phase 2 (decisions D1, D6): ingests policies (MD, PDF, DOCX) into sections, chunks and
-embeddings via `qc.ingest`, skipping embeddings when chunk text hashes are unchanged so `make seed`
-stays idempotent. Phase 3 replaces the known questionnaire layouts with header detection.
+Phase 3 (decisions D1, D6, D13): ingests policies via `qc.ingest` and detects questionnaire
+headers and columns via `qc.xlsx_io.read_questionnaire`.
 
 Usage: uv run python -m data.seed
 """
@@ -15,20 +14,19 @@ from pathlib import Path
 
 import psycopg
 import yaml
-from openpyxl import load_workbook
 from psycopg.types.json import Jsonb
 
-from data.make_questionnaires import LAYOUTS, make_all
+from data.make_questionnaires import make_all
 from data.render import render_all
 from qc.db import connect, migrate
 from qc.embed import Embedder, get_embedder
 from qc.ingest import ingest_policy
 from qc.markdown import split_front_matter
+from qc.xlsx_io import read_questionnaire
 
 DATA = Path(__file__).parent
 REPO = DATA.parent
 POLICY_DIR = DATA / "policies"
-MIN_QUESTION_CHARS = 15  # spec 7.2
 _NON_POLICY_TABLES = [
     "run_steps",
     "reviews",
@@ -122,42 +120,13 @@ def sync_policies(
     return total_embedded, total_skipped
 
 
-def read_known_layout(path: Path, layout: dict, qid_prefix: str | None) -> list[dict]:
-    """Read question rows with a known layout. `qid_prefix` numbers rows across sheets
-    (Questionnaire B, decision D13); otherwise the qid comes from the ID column."""
-    wb = load_workbook(path, read_only=True)
-    out = []
-    for sheet, cfg in layout.items():
-        ws = wb[sheet]
-        for row_idx, row in enumerate(
-            ws.iter_rows(min_row=cfg["header_row"] + 1, values_only=True),
-            start=cfg["header_row"] + 1,
-        ):
-            text = row[cfg["col_question"] - 1]
-            if not isinstance(text, str) or len(text.strip()) < MIN_QUESTION_CHARS:
-                continue
-            qid = f"{qid_prefix}-{len(out) + 1:03d}" if qid_prefix else str(row[cfg["col_qid"] - 1])
-            out.append(
-                {
-                    "qid": qid,
-                    "sheet": sheet,
-                    "row": row_idx,
-                    "col_question": cfg["col_question"],
-                    "col_answer": cfg["col_answer"],
-                    "text": text.strip(),
-                }
-            )
-    wb.close()
-    return out
-
-
 def load_questionnaire(
-    conn: psycopg.Connection, name: str, path: Path, layout: dict, qid_prefix: str | None
+    conn: psycopg.Connection, name: str, path: Path, qid_prefix: str | None
 ) -> int:
-    questions = read_known_layout(path, layout, qid_prefix)
+    detected = read_questionnaire(path, qid_prefix=qid_prefix)
     qn_id = conn.execute(
         "INSERT INTO questionnaires (name, file_path, sheet_map) VALUES (%s, %s, %s) RETURNING id",
-        (name, path.relative_to(REPO).as_posix(), Jsonb(layout)),
+        (name, path.relative_to(REPO).as_posix(), Jsonb(detected.sheet_map)),
     ).fetchone()[0]
     with conn.cursor() as cur:
         cur.executemany(
@@ -167,17 +136,17 @@ def load_questionnaire(
             [
                 (
                     qn_id,
-                    q["qid"],
-                    q["sheet"],
-                    q["row"],
-                    q["col_question"],
-                    q["col_answer"],
-                    q["text"],
+                    q.qid,
+                    q.sheet,
+                    q.row,
+                    q.col_question,
+                    q.col_answer,
+                    q.text,
                 )
-                for q in questions
+                for q in detected.questions
             ],
         )
-    return len(questions)
+    return len(detected.questions)
 
 
 def seed(conn: psycopg.Connection, *, embedder: Embedder | None = None) -> dict:
@@ -188,7 +157,7 @@ def seed(conn: psycopg.Connection, *, embedder: Embedder | None = None) -> dict:
     embedded, skipped = sync_policies(conn, discover_policies(), embedder=embedder)
     counts = {"embedded": embedded, "skipped": skipped}
     for name, prefix in [("acme_vendor_security_2026", None), ("globex_supplier_review", "B")]:
-        counts[name] = load_questionnaire(conn, name, paths[name], LAYOUTS[name], prefix)
+        counts[name] = load_questionnaire(conn, name, paths[name], prefix)
     conn.commit()
     counts["policies"] = conn.execute("SELECT count(*) FROM policies").fetchone()[0]
     counts["versions"] = conn.execute("SELECT count(*) FROM policy_versions").fetchone()[0]
