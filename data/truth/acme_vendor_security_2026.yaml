@@ -1,0 +1,835 @@
+# Ground truth for acme_vendor_security_2026. Hand-maintained source: data/make_questionnaires.py builds the
+# Excel file from it. Key phrases match case-insensitively against short answer, answer text and
+# explanation; "a | b" means either alternative is accepted (decision D16).
+
+- qid: A-001
+  domain: Encryption
+  question: Do you encrypt customer data at rest? If so, with what algorithm?
+  facts: [F10]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [AES-256]
+  forbidden_phrases: []
+  sources:
+  - policy_id: encryption-standard
+    version: 2
+    section: Data at rest
+  reference_answer: Yes. Databases, backups and object storage are encrypted at rest with AES-256.
+
+- qid: A-002
+  domain: Governance
+  question: Is there a named owner of your information security program?
+  facts: [F01]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [Head of Security]
+  forbidden_phrases: []
+  sources:
+  - policy_id: infosec-policy
+    version: 2
+    section: Governance
+  reference_answer: Yes. The security program is owned by the Head of Security and reviewed by the CEO
+    annually.
+
+- qid: A-003
+  domain: Governance
+  question: How frequently are your security policies reviewed and updated?
+  facts: [F02]
+  answerable: true
+  short_answer: text
+  key_phrases: [once a year | annual]
+  forbidden_phrases: [2 years]
+  sources:
+  - policy_id: infosec-policy
+    version: 2
+    section: Governance
+  reference_answer: All security policies are reviewed at least once a year.
+
+- qid: A-004
+  domain: Access Control
+  question: How often is user access reviewed?
+  facts: [F06]
+  answerable: true
+  short_answer: text
+  key_phrases: [quarter]
+  forbidden_phrases: []
+  sources:
+  - policy_id: access-control
+    version: 1
+    section: Access reviews
+  reference_answer: User access is reviewed every quarter.
+
+- qid: A-005
+  domain: Training
+  question: Do you provide security awareness training to employees? How often?
+  facts: [F03]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [hire, every year | annual]
+  forbidden_phrases: []
+  sources:
+  - policy_id: infosec-policy
+    version: 2
+    section: Training
+  reference_answer: Yes. Security awareness training is completed at hire and every year after.
+
+- qid: A-006
+  domain: Access Control
+  question: Is access removed promptly when an employee leaves? Within what timeframe?
+  facts: [F07]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [24 hours]
+  forbidden_phrases: []
+  sources:
+  - policy_id: access-control
+    version: 1
+    section: Offboarding
+  reference_answer: Yes. Access is revoked within 24 hours of departure.
+
+- qid: A-007
+  domain: Access Control
+  question: How is privileged access to production systems granted?
+  facts: [F08]
+  answerable: true
+  short_answer: text
+  key_phrases: [just in time, 4 hours]
+  forbidden_phrases: []
+  sources:
+  - policy_id: access-control
+    version: 1
+    section: Privileged access
+  reference_answer: Production admin access is granted just in time, for at most 4 hours, with approval.
+
+- qid: A-008
+  domain: Access Control
+  question: Do you follow the principle of least privilege when assigning permissions?
+  facts: [F09]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [least privilege]
+  forbidden_phrases: []
+  sources:
+  - policy_id: access-control
+    version: 1
+    section: Authorization
+  reference_answer: Yes. Permissions are assigned through role-based access following least privilege.
+
+- qid: A-009
+  domain: Data Retention
+  question: How long are customer data retained after contract termination?
+  facts: [F13]
+  answerable: true
+  short_answer: text
+  key_phrases: [30 days]
+  forbidden_phrases: [90 days]
+  sources:
+  - policy_id: data-retention
+    version: 3
+    section: Customer data
+  reference_answer: Customer data is deleted within 30 days after contract end.
+
+- qid: A-010
+  domain: Encryption
+  question: What protocol and version protect data in transit over public networks?
+  facts: [F11]
+  answerable: true
+  short_answer: text
+  key_phrases: [TLS 1.2]
+  forbidden_phrases: []
+  sources:
+  - policy_id: encryption-standard
+    version: 2
+    section: Data in transit
+  reference_answer: All external traffic uses TLS 1.2 or higher, and TLS 1.3 is preferred.
+
+- qid: A-011
+  domain: Encryption
+  question: Where are encryption keys stored and managed?
+  facts: [F12]
+  answerable: true
+  short_answer: text
+  key_phrases: [KMS]
+  forbidden_phrases: []
+  sources:
+  - policy_id: encryption-standard
+    version: 2
+    section: Key management
+  reference_answer: Encryption keys are managed in AWS KMS.
+
+- qid: A-012
+  domain: Encryption
+  question: How often are encryption keys rotated?
+  facts: [F12]
+  answerable: true
+  short_answer: text
+  key_phrases: [12 months]
+  forbidden_phrases: [24 months]
+  sources:
+  - policy_id: encryption-standard
+    version: 2
+    section: Key management
+  reference_answer: Encryption keys are rotated every 12 months.
+
+- qid: A-013
+  domain: Data Retention
+  question: How long are backups retained?
+  facts: [F14]
+  answerable: true
+  short_answer: text
+  key_phrases: [35 days]
+  forbidden_phrases: [90 days]
+  sources:
+  - policy_id: data-retention
+    version: 3
+    section: Backups
+  reference_answer: Backups are kept for 35 days.
+
+- qid: A-014
+  domain: Logging
+  question: How long do you keep security logs?
+  facts: [F15]
+  answerable: true
+  short_answer: text
+  key_phrases: [1 year | one year | 12 months]
+  forbidden_phrases: []
+  sources:
+  - policy_id: data-retention
+    version: 3
+    section: Logs
+  reference_answer: Security logs are kept for 1 year.
+
+- qid: A-015
+  domain: Risk Management
+  question: What is the coverage amount of your cyber insurance policy?
+  facts: []
+  answerable: false
+  short_answer: null
+  key_phrases: []
+  forbidden_phrases: []
+  sources: []
+  reference_answer: null
+  unanswerable_case: U1
+
+- qid: A-016
+  domain: Incident Response
+  question: Do you have a documented incident response plan, and is it tested?
+  facts: [F17]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [tabletop]
+  forbidden_phrases: []
+  sources:
+  - policy_id: incident-response
+    version: 1
+    section: Testing
+  reference_answer: Yes. The incident response plan is tested once a year with a tabletop exercise.
+
+- qid: A-017
+  domain: Incident Response
+  question: How quickly do you notify customers after a confirmed security breach?
+  facts: [F16]
+  answerable: true
+  short_answer: text
+  key_phrases: [72 hours]
+  forbidden_phrases: []
+  sources:
+  - policy_id: incident-response
+    version: 1
+    section: Notification
+  reference_answer: Affected customers are notified within 72 hours of a confirmed breach.
+
+- qid: A-018
+  domain: Incident Response
+  question: Is there round-the-clock coverage for responding to security incidents?
+  facts: [F18]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [24/7]
+  forbidden_phrases: []
+  sources:
+  - policy_id: incident-response
+    version: 1
+    section: On-call
+  reference_answer: Yes. A security on-call rotation covers 24/7.
+
+- qid: A-019
+  domain: Encryption
+  question: Do you support customer-managed encryption keys (BYOK)?
+  facts: []
+  answerable: false
+  short_answer: null
+  key_phrases: []
+  forbidden_phrases: []
+  sources: []
+  reference_answer: null
+  unanswerable_case: U2
+
+- qid: A-020
+  domain: Business Continuity
+  question: Is there a disaster recovery plan, and how often is it tested?
+  facts: [F20]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [twice]
+  forbidden_phrases: []
+  sources:
+  - policy_id: business-continuity
+    version: 1
+    section: Testing
+  reference_answer: Yes. Disaster recovery is tested twice a year.
+
+- qid: A-021
+  domain: Business Continuity
+  question: What are your RPO and RTO?
+  facts: [F19]
+  answerable: true
+  short_answer: text
+  key_phrases: [4 hours, 8 hours]
+  forbidden_phrases: []
+  sources:
+  - policy_id: business-continuity
+    version: 1
+    section: Objectives
+  reference_answer: The RPO is 4 hours and the RTO is 8 hours.
+
+- qid: A-022
+  domain: Physical Security
+  question: Are your offices protected by 24/7 security guards?
+  facts: []
+  answerable: false
+  short_answer: null
+  key_phrases: []
+  forbidden_phrases: []
+  sources: []
+  reference_answer: null
+  unanswerable_case: U3
+
+- qid: A-023
+  domain: Hosting
+  question: Which cloud provider and region host your production environment?
+  facts: [F21]
+  answerable: true
+  short_answer: text
+  key_phrases: [AWS, eu-west-1 | Ireland]
+  forbidden_phrases: []
+  sources:
+  - policy_id: business-continuity
+    version: 1
+    section: Hosting
+  reference_answer: Production runs in AWS eu-west-1 (Ireland) across multiple availability zones.
+
+- qid: A-024
+  domain: Hosting
+  question: Where are backups stored?
+  facts: [F21]
+  answerable: true
+  short_answer: text
+  key_phrases: [eu-central-1 | Frankfurt]
+  forbidden_phrases: []
+  sources:
+  - policy_id: business-continuity
+    version: 1
+    section: Hosting
+  reference_answer: Backups are stored in AWS eu-central-1 (Frankfurt).
+
+- qid: A-025
+  domain: Vendor Management
+  question: Do you assess the security of your critical vendors? How often?
+  facts: [F22]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [every year | annual]
+  forbidden_phrases: []
+  sources:
+  - policy_id: vendor-management
+    version: 1
+    section: Assessment
+  reference_answer: Yes. Critical vendors are assessed every year.
+
+- qid: A-026
+  domain: Access Control
+  question: Is MFA enforced for administrative access?
+  facts: [F05]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [multi-factor]
+  forbidden_phrases: []
+  sources:
+  - policy_id: access-control
+    version: 1
+    section: Authentication
+  reference_answer: Yes. SSO with multi-factor authentication is required for all production and admin
+    systems.
+
+- qid: A-027
+  domain: Vendor Management
+  question: Do you publish a list of your subprocessors?
+  facts: [F23]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [website]
+  forbidden_phrases: []
+  sources:
+  - policy_id: vendor-management
+    version: 1
+    section: Subprocessors
+  reference_answer: Yes. The subprocessor list is published on the website.
+
+- qid: A-028
+  domain: Vendor Management
+  question: Are customers notified before a new subprocessor is added?
+  facts: [F23]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [30 days]
+  forbidden_phrases: []
+  sources:
+  - policy_id: vendor-management
+    version: 1
+    section: Subprocessors
+  reference_answer: Yes. Customers are notified 30 days before changes to the subprocessor list.
+
+- qid: A-029
+  domain: Vendor Management
+  question: Are data processing agreements in place with your subprocessors?
+  facts: [F24]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [data processing agreement]
+  forbidden_phrases: []
+  sources:
+  - policy_id: vendor-management
+    version: 1
+    section: Contracts
+  reference_answer: Yes. A data processing agreement is signed with every subprocessor.
+
+- qid: A-030
+  domain: Compliance
+  question: Are you FedRAMP authorized?
+  facts: []
+  answerable: false
+  short_answer: null
+  key_phrases: []
+  forbidden_phrases: []
+  sources: []
+  reference_answer: null
+  unanswerable_case: U4
+
+- qid: A-031
+  domain: Secure Development
+  question: Are code changes peer reviewed before they are merged?
+  facts: [F25]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [second engineer]
+  forbidden_phrases: []
+  sources:
+  - policy_id: secure-sdlc
+    version: 1
+    section: Code review
+  reference_answer: Yes. Every change requires review by a second engineer.
+
+- qid: A-032
+  domain: Secure Development
+  question: Do you use static code analysis?
+  facts: [F26]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [pull request]
+  forbidden_phrases: []
+  sources:
+  - policy_id: secure-sdlc
+    version: 1
+    section: Testing
+  reference_answer: Yes. Static analysis runs on every pull request.
+
+- qid: A-033
+  domain: Training
+  question: Do you conduct phishing simulations?
+  facts: [F04]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [quarter]
+  forbidden_phrases: []
+  sources:
+  - policy_id: infosec-policy
+    version: 2
+    section: Training
+  reference_answer: Yes. Phishing simulations run every quarter.
+
+- qid: A-034
+  domain: Secure Development
+  question: How often are third-party dependencies scanned for vulnerabilities?
+  facts: [F26]
+  answerable: true
+  short_answer: text
+  key_phrases: [daily]
+  forbidden_phrases: []
+  sources:
+  - policy_id: secure-sdlc
+    version: 1
+    section: Testing
+  reference_answer: Third-party dependencies are scanned daily.
+
+- qid: A-035
+  domain: Secure Development
+  question: Do you engage an independent firm for penetration testing? When was the most recent test?
+  facts: [F27]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [February 2026]
+  forbidden_phrases: []
+  sources:
+  - policy_id: secure-sdlc
+    version: 1
+    section: Penetration testing
+  reference_answer: Yes. An independent penetration test is performed every year; the last one was in
+    February 2026.
+
+- qid: A-036
+  domain: Access Control
+  question: How many employees have production database access?
+  facts: []
+  answerable: false
+  short_answer: null
+  key_phrases: []
+  forbidden_phrases: []
+  sources: []
+  reference_answer: null
+  unanswerable_case: U5
+
+- qid: A-037
+  domain: Logging
+  question: Are logs collected centrally and monitored?
+  facts: [F28]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [24/7]
+  forbidden_phrases: []
+  sources:
+  - policy_id: logging-monitoring
+    version: 1
+    section: Logging
+  reference_answer: Yes. Logs are centralized and alerts are monitored 24/7.
+
+- qid: A-038
+  domain: HR Security
+  question: Do you perform background checks on new employees?
+  facts: [F29]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [background check]
+  forbidden_phrases: []
+  sources:
+  - policy_id: hr-security
+    version: 1
+    section: Screening
+  reference_answer: Yes. Background checks are performed for all employees where legally permitted.
+
+- qid: A-039
+  domain: HR Security
+  question: Do employees sign confidentiality or non-disclosure agreements?
+  facts: [F30]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [hire]
+  forbidden_phrases: []
+  sources:
+  - policy_id: hr-security
+    version: 1
+    section: Agreements
+  reference_answer: Yes. Confidentiality agreements are signed at hire.
+
+- qid: A-040
+  domain: Compliance
+  question: Are you ISO 27001 certified?
+  facts: [F32]
+  answerable: true
+  short_answer: 'no'
+  key_phrases: ['2027']
+  forbidden_phrases: []
+  sources:
+  - policy_id: compliance
+    version: 1
+    section: Certifications
+  reference_answer: No. Northbeam Cloud is not ISO 27001 certified; certification is planned for 2027.
+
+- qid: A-041
+  domain: Compliance
+  question: Do you have a SOC 2 Type II report?
+  facts: [F31]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [NDA]
+  forbidden_phrases: []
+  sources:
+  - policy_id: compliance
+    version: 1
+    section: Certifications
+  reference_answer: Yes. A SOC 2 Type II report for the period ending 2026-06-30 is available under NDA.
+
+- qid: A-042
+  domain: Secure Development
+  question: Do you allow customers to perform their own penetration tests?
+  facts: []
+  answerable: false
+  short_answer: null
+  key_phrases: []
+  forbidden_phrases: []
+  sources: []
+  reference_answer: null
+  unanswerable_case: U6
+
+- qid: A-043
+  domain: Compliance
+  question: Is customer data ever stored or processed outside the EU?
+  facts: [F33]
+  answerable: true
+  short_answer: 'no'
+  key_phrases: [EU]
+  forbidden_phrases: []
+  sources:
+  - policy_id: compliance
+    version: 1
+    section: Data location
+  reference_answer: No. Customer data is stored and processed in the EU only.
+
+- qid: A-044
+  domain: Hosting
+  question: Where is customer data hosted?
+  facts: [F21, F33]
+  answerable: true
+  short_answer: text
+  key_phrases: [EU]
+  forbidden_phrases: []
+  sources:
+  - policy_id: business-continuity
+    version: 1
+    section: Hosting
+  - policy_id: compliance
+    version: 1
+    section: Data location
+  reference_answer: 'Customer data is stored and processed in the EU only: production runs in AWS eu-west-1
+    (Ireland) and backups are stored in eu-central-1 (Frankfurt).'
+
+- qid: A-045
+  domain: Governance
+  question: Who reviews the information security program at executive level?
+  facts: [F01]
+  answerable: true
+  short_answer: text
+  key_phrases: [CEO]
+  forbidden_phrases: []
+  sources:
+  - policy_id: infosec-policy
+    version: 2
+    section: Governance
+  reference_answer: The CEO reviews the security program annually.
+
+- qid: A-046
+  domain: Hosting
+  question: What is your data center's Uptime Institute tier?
+  facts: []
+  answerable: false
+  short_answer: null
+  key_phrases: []
+  forbidden_phrases: []
+  sources: []
+  reference_answer: null
+  unanswerable_case: U7
+
+- qid: A-047
+  domain: Hosting
+  question: Is production deployed across multiple availability zones?
+  facts: [F21]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [availability zones]
+  forbidden_phrases: []
+  sources:
+  - policy_id: business-continuity
+    version: 1
+    section: Hosting
+  reference_answer: Yes. Production runs in AWS eu-west-1 across multiple availability zones.
+
+- qid: A-048
+  domain: Access Control
+  question: Is multi-factor authentication required for everyone who accesses production systems?
+  facts: [F05]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [multi-factor]
+  forbidden_phrases: []
+  sources:
+  - policy_id: access-control
+    version: 1
+    section: Authentication
+  reference_answer: Yes. SSO with multi-factor authentication is required for all production and admin
+    systems.
+
+- qid: A-049
+  domain: Access Control
+  question: Do you use role-based access control?
+  facts: [F09]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [role-based]
+  forbidden_phrases: []
+  sources:
+  - policy_id: access-control
+    version: 1
+    section: Authorization
+  reference_answer: Yes. Permissions are assigned through role-based access following least privilege.
+
+- qid: A-050
+  domain: Incident Response
+  question: What is your breach notification timeline for affected customers?
+  facts: [F16]
+  answerable: true
+  short_answer: text
+  key_phrases: [72 hours]
+  forbidden_phrases: []
+  sources:
+  - policy_id: incident-response
+    version: 1
+    section: Notification
+  reference_answer: Affected customers are notified within 72 hours of a confirmed breach.
+
+- qid: A-051
+  domain: Compliance
+  question: Do you hold PCI DSS certification?
+  facts: []
+  answerable: false
+  short_answer: null
+  key_phrases: []
+  forbidden_phrases: []
+  sources: []
+  reference_answer: null
+  unanswerable_case: U8
+
+- qid: A-052
+  domain: Encryption
+  question: Do you enforce a minimum TLS version for external connections?
+  facts: [F11]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: ['1.2']
+  forbidden_phrases: []
+  sources:
+  - policy_id: encryption-standard
+    version: 2
+    section: Data in transit
+  reference_answer: Yes. All external traffic requires TLS 1.2 or higher, and TLS 1.3 is preferred.
+
+- qid: A-053
+  domain: Encryption
+  question: Are backups encrypted?
+  facts: [F10]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [AES-256]
+  forbidden_phrases: []
+  sources:
+  - policy_id: encryption-standard
+    version: 2
+    section: Data at rest
+  reference_answer: Yes. Backups are encrypted at rest with AES-256.
+
+- qid: A-054
+  domain: Data Retention
+  question: After a customer leaves, how soon is their data purged from your systems?
+  facts: [F13]
+  answerable: true
+  short_answer: text
+  key_phrases: [30 days]
+  forbidden_phrases: [90 days]
+  sources:
+  - policy_id: data-retention
+    version: 3
+    section: Customer data
+  reference_answer: Customer data is deleted within 30 days after contract end.
+
+- qid: A-055
+  domain: Governance
+  question: Is there a formal annual review of your security policies?
+  facts: [F02]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [once a year | annual]
+  forbidden_phrases: [2 years]
+  sources:
+  - policy_id: infosec-policy
+    version: 2
+    section: Governance
+  reference_answer: Yes. All security policies are reviewed at least once a year.
+
+- qid: A-056
+  domain: Business Continuity
+  question: How often do you test your disaster recovery procedures?
+  facts: [F20]
+  answerable: true
+  short_answer: text
+  key_phrases: [twice]
+  forbidden_phrases: []
+  sources:
+  - policy_id: business-continuity
+    version: 1
+    section: Testing
+  reference_answer: Disaster recovery is tested twice a year.
+
+- qid: A-057
+  domain: Training
+  question: Is security awareness training repeated every year?
+  facts: [F03]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [every year | annual]
+  forbidden_phrases: []
+  sources:
+  - policy_id: infosec-policy
+    version: 2
+    section: Training
+  reference_answer: Yes. Security awareness training is completed at hire and every year after.
+
+- qid: A-058
+  domain: Incident Response
+  question: How frequently is the incident response plan exercised?
+  facts: [F17]
+  answerable: true
+  short_answer: text
+  key_phrases: [once a year | annual]
+  forbidden_phrases: []
+  sources:
+  - policy_id: incident-response
+    version: 1
+    section: Testing
+  reference_answer: The incident response plan is tested once a year with a tabletop exercise.
+
+- qid: A-059
+  domain: Logging
+  question: Are security alerts monitored outside business hours?
+  facts: [F28]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [24/7]
+  forbidden_phrases: []
+  sources:
+  - policy_id: logging-monitoring
+    version: 1
+    section: Logging
+  reference_answer: Yes. Logs are centralized and alerts are monitored 24/7.
+
+- qid: A-060
+  domain: Vendor Management
+  question: Do you have a process for assessing vendor security risk?
+  facts: [F22]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [every year | annual]
+  forbidden_phrases: []
+  sources:
+  - policy_id: vendor-management
+    version: 1
+    section: Assessment
+  reference_answer: Yes. Critical vendors are assessed every year.

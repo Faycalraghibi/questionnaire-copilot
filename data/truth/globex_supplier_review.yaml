@@ -1,0 +1,596 @@
+# Ground truth for globex_supplier_review. Hand-maintained source: data/make_questionnaires.py builds the
+# Excel file from it. Key phrases match case-insensitively against short answer, answer text and
+# explanation; "a | b" means either alternative is accepted (decision D16).
+
+- qid: B-001
+  sheet: Security
+  reworded_from: A-001
+  question: Is all customer data encrypted while stored, including backups?
+  facts: [F10]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [AES-256]
+  forbidden_phrases: []
+  sources:
+  - policy_id: encryption-standard
+    version: 2
+    section: Data at rest
+  reference_answer: Yes. Databases, backups and object storage are encrypted at rest with AES-256.
+
+- qid: B-002
+  sheet: Security
+  reworded_from: A-004
+  question: Are user access rights re-certified on a periodic basis?
+  facts: [F06]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [quarter]
+  forbidden_phrases: []
+  sources:
+  - policy_id: access-control
+    version: 1
+    section: Access reviews
+  reference_answer: Yes. User access is reviewed every quarter.
+
+- qid: B-003
+  sheet: Security
+  reworded_from: A-026
+  question: Is multi-factor authentication mandatory for administrator accounts?
+  facts: [F05]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [multi-factor]
+  forbidden_phrases: []
+  sources:
+  - policy_id: access-control
+    version: 1
+    section: Authentication
+  reference_answer: Yes. SSO with multi-factor authentication is required for all production and admin
+    systems.
+
+- qid: B-004
+  sheet: Security
+  reworded_from: A-006
+  question: Are the accounts of leavers disabled within one business day?
+  facts: [F07]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [24 hours]
+  forbidden_phrases: []
+  sources:
+  - policy_id: access-control
+    version: 1
+    section: Offboarding
+  reference_answer: Yes. Access is revoked within 24 hours of departure.
+
+- qid: B-005
+  sheet: Security
+  reworded_from: A-007
+  question: Is privileged access to production time-limited and approved?
+  facts: [F08]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [4 hours]
+  forbidden_phrases: []
+  sources:
+  - policy_id: access-control
+    version: 1
+    section: Privileged access
+  reference_answer: Yes. Production admin access is granted just in time, for at most 4 hours, with approval.
+
+- qid: B-006
+  sheet: Security
+  reworded_from: A-012
+  question: Are cryptographic keys rotated at least once a year?
+  facts: [F12]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [12 months]
+  forbidden_phrases: [24 months]
+  sources:
+  - policy_id: encryption-standard
+    version: 2
+    section: Key management
+  reference_answer: Yes. Encryption keys are managed in AWS KMS and rotated every 12 months.
+
+- qid: B-007
+  sheet: Security
+  reworded_from: A-010
+  question: Is TLS 1.2 or later required for connections from the internet?
+  facts: [F11]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [TLS 1.2]
+  forbidden_phrases: []
+  sources:
+  - policy_id: encryption-standard
+    version: 2
+    section: Data in transit
+  reference_answer: Yes. All external traffic requires TLS 1.2 or higher, and TLS 1.3 is preferred.
+
+- qid: B-008
+  sheet: Security
+  reworded_from: A-057
+  question: Do all staff complete security awareness training every year?
+  facts: [F03]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [every year | annual]
+  forbidden_phrases: []
+  sources:
+  - policy_id: infosec-policy
+    version: 2
+    section: Training
+  reference_answer: Yes. Security awareness training is completed at hire and every year after.
+
+- qid: B-009
+  sheet: Security
+  reworded_from: A-033
+  question: Do you run simulated phishing campaigns against your staff?
+  facts: [F04]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [quarter]
+  forbidden_phrases: []
+  sources:
+  - policy_id: infosec-policy
+    version: 2
+    section: Training
+  reference_answer: Yes. Phishing simulations run every quarter.
+
+- qid: B-010
+  sheet: Security
+  reworded_from: A-016
+  question: Is there a written incident response plan that is exercised regularly?
+  facts: [F17]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [tabletop]
+  forbidden_phrases: []
+  sources:
+  - policy_id: incident-response
+    version: 1
+    section: Testing
+  reference_answer: Yes. The incident response plan is tested once a year with a tabletop exercise.
+
+- qid: B-011
+  sheet: Security
+  reworded_from: A-017
+  question: Will you inform us within 72 hours if a confirmed breach affects our data?
+  facts: [F16]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [72 hours]
+  forbidden_phrases: []
+  sources:
+  - policy_id: incident-response
+    version: 1
+    section: Notification
+  reference_answer: Yes. Affected customers are notified within 72 hours of a confirmed breach.
+
+- qid: B-012
+  sheet: Security
+  reworded_from: A-018
+  question: Is a member of the security team on call at all times?
+  facts: [F18]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [24/7]
+  forbidden_phrases: []
+  sources:
+  - policy_id: incident-response
+    version: 1
+    section: On-call
+  reference_answer: Yes. A security on-call rotation covers 24/7.
+
+- qid: B-013
+  sheet: Security
+  reworded_from: A-056
+  question: Are disaster recovery tests performed at least annually?
+  facts: [F20]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [twice]
+  forbidden_phrases: []
+  sources:
+  - policy_id: business-continuity
+    version: 1
+    section: Testing
+  reference_answer: Yes. Disaster recovery is tested twice a year.
+
+- qid: B-014
+  sheet: Security
+  reworded_from: A-021
+  question: Is your recovery point objective 4 hours or less?
+  facts: [F19]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [4 hours]
+  forbidden_phrases: []
+  sources:
+  - policy_id: business-continuity
+    version: 1
+    section: Objectives
+  reference_answer: Yes. The RPO is 4 hours and the RTO is 8 hours.
+
+- qid: B-015
+  sheet: Security
+  reworded_from: A-031
+  question: Is source code peer reviewed before it is merged?
+  facts: [F25]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [second engineer]
+  forbidden_phrases: []
+  sources:
+  - policy_id: secure-sdlc
+    version: 1
+    section: Code review
+  reference_answer: Yes. Every change requires review by a second engineer.
+
+- qid: B-016
+  sheet: Security
+  reworded_from: A-032
+  question: Are automated code security scans run on every pull request?
+  facts: [F26]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [static analysis]
+  forbidden_phrases: []
+  sources:
+  - policy_id: secure-sdlc
+    version: 1
+    section: Testing
+  reference_answer: Yes. Static analysis runs on every pull request.
+
+- qid: B-017
+  sheet: Security
+  reworded_from: A-035
+  question: Has an independent penetration test been completed in the last 12 months?
+  facts: [F27]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [February 2026]
+  forbidden_phrases: []
+  sources:
+  - policy_id: secure-sdlc
+    version: 1
+    section: Penetration testing
+  reference_answer: Yes. An independent penetration test is performed every year; the last one was in
+    February 2026.
+
+- qid: B-018
+  sheet: Security
+  reworded_from: A-014
+  question: Are security logs retained for at least 12 months?
+  facts: [F15]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [1 year | one year | 12 months]
+  forbidden_phrases: []
+  sources:
+  - policy_id: data-retention
+    version: 3
+    section: Logs
+  reference_answer: Yes. Security logs are kept for 1 year.
+
+- qid: B-019
+  sheet: Security
+  reworded_from: A-059
+  question: Is security monitoring performed around the clock?
+  facts: [F28]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [24/7]
+  forbidden_phrases: []
+  sources:
+  - policy_id: logging-monitoring
+    version: 1
+    section: Logging
+  reference_answer: Yes. Logs are centralized and alerts are monitored 24/7.
+
+- qid: B-020
+  sheet: Security
+  reworded_from: A-038
+  question: Are employees background checked before they start?
+  facts: [F29]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [background check]
+  forbidden_phrases: []
+  sources:
+  - policy_id: hr-security
+    version: 1
+    section: Screening
+  reference_answer: Yes. Background checks are performed for all employees where legally permitted.
+
+- qid: B-021
+  sheet: Security
+  reworded_from: A-015
+  question: What limit does your cyber liability insurance provide?
+  facts: []
+  answerable: false
+  short_answer: null
+  key_phrases: []
+  forbidden_phrases: []
+  sources: []
+  reference_answer: null
+  unanswerable_case: U1
+
+- qid: B-022
+  sheet: Security
+  reworded_from: A-019
+  question: Can customers bring their own encryption keys to your platform?
+  facts: []
+  answerable: false
+  short_answer: null
+  key_phrases: []
+  forbidden_phrases: []
+  sources: []
+  reference_answer: null
+  unanswerable_case: U2
+
+- qid: B-023
+  sheet: Security
+  reworded_from: A-030
+  question: Does your service hold a FedRAMP authorization at any impact level?
+  facts: []
+  answerable: false
+  short_answer: null
+  key_phrases: []
+  forbidden_phrases: []
+  sources: []
+  reference_answer: null
+  unanswerable_case: U4
+
+- qid: B-024
+  sheet: Security
+  reworded_from: A-024
+  question: Are backups stored in a different region from production?
+  facts: [F21]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [eu-central-1 | Frankfurt]
+  forbidden_phrases: []
+  sources:
+  - policy_id: business-continuity
+    version: 1
+    section: Hosting
+  reference_answer: Yes. Production runs in AWS eu-west-1 (Ireland) and backups are stored in eu-central-1
+    (Frankfurt).
+
+- qid: B-025
+  sheet: Security
+  reworded_from: A-047
+  question: Is production hosted across more than one availability zone?
+  facts: [F21]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [availability zones]
+  forbidden_phrases: []
+  sources:
+  - policy_id: business-continuity
+    version: 1
+    section: Hosting
+  reference_answer: Yes. Production runs in AWS eu-west-1 across multiple availability zones.
+
+- qid: B-026
+  sheet: Privacy
+  reworded_from: A-043
+  question: Is customer data held only within the European Union?
+  facts: [F33]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [EU]
+  forbidden_phrases: []
+  sources:
+  - policy_id: compliance
+    version: 1
+    section: Data location
+  reference_answer: Yes. Customer data is stored and processed in the EU only.
+
+- qid: B-027
+  sheet: Privacy
+  reworded_from: A-009
+  question: Is customer data deleted within 30 days of contract termination?
+  facts: [F13]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [30 days]
+  forbidden_phrases: [90 days]
+  sources:
+  - policy_id: data-retention
+    version: 3
+    section: Customer data
+  reference_answer: Yes. Customer data is deleted within 30 days after contract end.
+
+- qid: B-028
+  sheet: Privacy
+  reworded_from: A-013
+  question: Are backups containing customer data deleted within 35 days?
+  facts: [F14]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [35 days]
+  forbidden_phrases: [90 days]
+  sources:
+  - policy_id: data-retention
+    version: 3
+    section: Backups
+  reference_answer: Yes. Backups are kept for 35 days.
+
+- qid: B-029
+  sheet: Privacy
+  reworded_from: A-027
+  question: Is a list of your subprocessors publicly available?
+  facts: [F23]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [website]
+  forbidden_phrases: []
+  sources:
+  - policy_id: vendor-management
+    version: 1
+    section: Subprocessors
+  reference_answer: Yes. The subprocessor list is published on the website.
+
+- qid: B-030
+  sheet: Privacy
+  reworded_from: A-028
+  question: Do you give customers advance notice of subprocessor changes?
+  facts: [F23]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [30 days]
+  forbidden_phrases: []
+  sources:
+  - policy_id: vendor-management
+    version: 1
+    section: Subprocessors
+  reference_answer: Yes. Customers are notified 30 days before changes to the subprocessor list.
+
+- qid: B-031
+  sheet: Privacy
+  reworded_from: A-029
+  question: Is a DPA signed with each of your subprocessors?
+  facts: [F24]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [data processing agreement]
+  forbidden_phrases: []
+  sources:
+  - policy_id: vendor-management
+    version: 1
+    section: Contracts
+  reference_answer: Yes. A data processing agreement is signed with every subprocessor.
+
+- qid: B-032
+  sheet: Privacy
+  reworded_from: A-025
+  question: Are critical suppliers reviewed for security every year?
+  facts: [F22]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [every year | annual]
+  forbidden_phrases: []
+  sources:
+  - policy_id: vendor-management
+    version: 1
+    section: Assessment
+  reference_answer: Yes. Critical vendors are assessed every year.
+
+- qid: B-033
+  sheet: Privacy
+  reworded_from: A-039
+  question: Do employees sign confidentiality agreements when they join?
+  facts: [F30]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [hire]
+  forbidden_phrases: []
+  sources:
+  - policy_id: hr-security
+    version: 1
+    section: Agreements
+  reference_answer: Yes. Confidentiality agreements are signed at hire.
+
+- qid: B-034
+  sheet: Privacy
+  reworded_from: A-041
+  question: Can you share a current SOC 2 Type II report with us?
+  facts: [F31]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [NDA]
+  forbidden_phrases: []
+  sources:
+  - policy_id: compliance
+    version: 1
+    section: Certifications
+  reference_answer: Yes. A SOC 2 Type II report for the period ending 2026-06-30 is available under NDA.
+
+- qid: B-035
+  sheet: Privacy
+  reworded_from: A-040
+  question: Do you hold an ISO 27001 certification?
+  facts: [F32]
+  answerable: true
+  short_answer: 'no'
+  key_phrases: ['2027']
+  forbidden_phrases: []
+  sources:
+  - policy_id: compliance
+    version: 1
+    section: Certifications
+  reference_answer: No. Northbeam Cloud is not ISO 27001 certified; certification is planned for 2027.
+
+- qid: B-036
+  sheet: Privacy
+  reworded_from: A-055
+  question: Are your security policies reviewed by management every year?
+  facts: [F02]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [once a year | annual]
+  forbidden_phrases: [2 years]
+  sources:
+  - policy_id: infosec-policy
+    version: 2
+    section: Governance
+  reference_answer: Yes. All security policies are reviewed at least once a year.
+
+- qid: B-037
+  sheet: Privacy
+  reworded_from: A-049
+  question: Is access granted on a least-privilege, role-based model?
+  facts: [F09]
+  answerable: true
+  short_answer: 'yes'
+  key_phrases: [least privilege]
+  forbidden_phrases: []
+  sources:
+  - policy_id: access-control
+    version: 1
+    section: Authorization
+  reference_answer: Yes. Permissions are assigned through role-based access following least privilege.
+
+- qid: B-038
+  sheet: Privacy
+  reworded_from: A-051
+  question: Are you certified against the PCI DSS standard?
+  facts: []
+  answerable: false
+  short_answer: null
+  key_phrases: []
+  forbidden_phrases: []
+  sources: []
+  reference_answer: null
+  unanswerable_case: U8
+
+- qid: B-039
+  sheet: Privacy
+  reworded_from: A-042
+  question: May our security team run its own penetration test against your service?
+  facts: []
+  answerable: false
+  short_answer: null
+  key_phrases: []
+  forbidden_phrases: []
+  sources: []
+  reference_answer: null
+  unanswerable_case: U6
+
+- qid: B-040
+  sheet: Privacy
+  reworded_from: A-023
+  question: In which region is your primary production environment hosted?
+  facts: [F21]
+  answerable: true
+  short_answer: text
+  key_phrases: [eu-west-1 | Ireland]
+  forbidden_phrases: []
+  sources:
+  - policy_id: business-continuity
+    version: 1
+    section: Hosting
+  reference_answer: Production runs in AWS eu-west-1 (Ireland) across multiple availability zones.
