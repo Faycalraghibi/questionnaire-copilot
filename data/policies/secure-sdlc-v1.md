@@ -2,7 +2,7 @@
 policy_id: secure-sdlc
 title: Secure Development Policy
 version: 1
-effective_date: 2025-08-01
+effective_date: 2026-03-01
 ---
 
 # Secure Development Policy

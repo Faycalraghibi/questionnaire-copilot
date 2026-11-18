@@ -23,7 +23,7 @@ SPEC_POLICIES = {
     "incident-response": [(1, "2025-06-01")],
     "business-continuity": [(1, "2025-04-01")],
     "vendor-management": [(1, "2025-07-01")],
-    "secure-sdlc": [(1, "2025-08-01")],
+    "secure-sdlc": [(1, "2026-03-01")],
     "logging-monitoring": [(1, "2025-05-15")],
     "hr-security": [(1, "2025-03-01")],
     "compliance": [(1, "2026-07-15")],

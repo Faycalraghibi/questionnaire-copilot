@@ -73,9 +73,10 @@ decisions continue from D23. Each entry says when it takes effect.
 
 - **D23 (Phase 1).** YAML front matter is parsed in `qc/markdown.py` with `pyyaml`; no
   python-frontmatter dependency (not approved).
-- **D24 (Phase 1).** A key phrase may list alternatives as `"a | b"`; either one matches. Used where
+- **D24 (Phase 1, 7).** A key phrase may list alternatives as `"a | b"`; either one matches. Used where
   a model may say the same thing in different words ("once a year | annual", "eu-west-1 | Ireland").
-  The spec's own examples are unchanged.
+  The spec's own examples are unchanged. Approved in Phase 1 review; the Phase 7 correctness check
+  must apply these alternatives.
 - **D25 (Phase 1).** Generated files (rendered PDF and DOCX, `manifest.yaml`, both `.xlsx`
   questionnaires) are git-ignored and rebuilt by `make seed`. The sources are the Markdown policies
   and `data/truth/*.yaml`.
@@ -91,3 +92,6 @@ decisions continue from D23. Each entry says when it takes effect.
   when the database is not running, except in CI where `QC_REQUIRE_DB=1` makes that a failure.
 - **D30 (Phase 1).** `specs/` is excluded from ruff, because ruff formats code blocks inside Markdown
   and was rewriting the spec files.
+- **D31 (Phase 1 review).** `secure-sdlc` v1 `effective_date` changed from `2025-08-01` to
+  `2026-03-01` so it is not earlier than fact F27 ("the last one was in February 2026"). Facts are
+  kept unchanged.

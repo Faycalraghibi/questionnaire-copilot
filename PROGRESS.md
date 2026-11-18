@@ -196,3 +196,10 @@ Key phrases: "/" separates accepted alternatives (written "|" in the YAML). Unan
 | B-038 | Are you certified against the PCI DSS standard? (from A-051) | - | no | - | needs input (U8) |
 | B-039 | May our security team run its own penetration test against your service? (from A-042) | - | no | - | needs input (U6) |
 | B-040 | In which region is your primary production environment hosted? (from A-023) | F21 | yes | eu-west-1 / Ireland | business-continuity v1 Hosting |
+
+## 2026-11-18: Phase 1 review decisions
+
+- **F27 date conflict (D31):** Changed `secure-sdlc` v1 `effective_date` to `2026-03-01` in
+  `data/policies/secure-sdlc-v1.md` and `tests/test_data.py`; facts kept unchanged.
+- **Key phrase alternatives (D24):** Approved for `"a | b"` syntax; Phase 7 correctness check must
+  apply these alternatives.
