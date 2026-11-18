@@ -1,6 +1,6 @@
 """Minimal Markdown policy reader: YAML front matter, title and `##` sections.
 
-Front matter is parsed here on purpose (no python-frontmatter dependency, decision D14).
+Front matter is parsed here on purpose (no python-frontmatter dependency, decision D23).
 """
 
 from __future__ import annotations

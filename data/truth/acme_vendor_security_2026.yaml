@@ -1,6 +1,6 @@
 # Ground truth for acme_vendor_security_2026. Hand-maintained source: data/make_questionnaires.py builds the
 # Excel file from it. Key phrases match case-insensitively against short answer, answer text and
-# explanation; "a | b" means either alternative is accepted (decision D16).
+# explanation; "a | b" means either alternative is accepted (decision D24).
 
 - qid: A-001
   domain: Encryption

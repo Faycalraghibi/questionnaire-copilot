@@ -77,7 +77,7 @@ TRUTH_B = yaml.safe_load((DATA / "truth" / f"{B_NAME}.yaml").read_text(encoding=
 
 
 def phrase_in(phrase: str, text: str) -> bool:
-    """Key phrase match: case-insensitive, `a | b` accepts either alternative (decision D16)."""
+    """Key phrase match: case-insensitive, `a | b` accepts either alternative (decision D24)."""
     return any(alt.strip().lower() in text.lower() for alt in phrase.split("|"))
 
 
