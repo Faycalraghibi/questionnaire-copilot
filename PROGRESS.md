@@ -482,3 +482,30 @@ A correctness=7.7%, B correctness=51.4%, B reuse=62.5%, staleness=100.0%
 ### Questions
 
 None.
+
+## 2026-11-18: Phase 8, docs and polish
+
+### What was built
+
+- `README.md`: written following the `specs/00-AGENT-RULES.md` section 8 template with exact
+  numbers from `evals/report.md` (clearly labelled as `stub / stub` offline run).
+- `docs/architecture.png`: architecture diagram illustrating Streamlit UI, FastAPI backend,
+  PostgreSQL 16 + pgvector, and the 6 core service modules.
+- `docs/user-guide.md`: one-page non-technical reviewer guide covering library, questionnaire
+  upload/drafting, review, stale re-approval, and export.
+- `docs/production.md`: production additions covering SSO, connectors, hosting/scaling, and data
+  handling/security.
+
+### Acceptance output
+
+```
+$ make lint
+All checks passed!
+63 files already formatted
+$ make test
+============================= 199 passed in 35.42s =============================
+```
+
+### Questions
+
+None.
