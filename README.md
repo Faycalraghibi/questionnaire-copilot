@@ -21,31 +21,33 @@ When teams answer security questionnaires manually or with a naive RAG assistant
 
 ## Results (from evals/report.md)
 
-The numbers below are from `evals/report.md` run with the offline `stub` provider (`LLM_PROVIDER=stub`, no API key configured in `.env`). Re-run `make eval` with an OpenAI or Anthropic key in `.env` to record live model metrics.
+The numbers below are from `evals/report.md` run with `openai` / `auto/fast` (OmniRoute gateway).
 
-### Questionnaire A (calibration set, 60 questions, `stub / stub`)
-
-| Metric | Value | Target |
-| --- | --- | --- |
-| Answer correctness | 7.7% | 90%+ |
-| Citation correctness | 11.5% | 90%+ |
-| Stale-version citations | 0 | 0 |
-| Needs-input recall | 100.0% | 100% |
-| Needs-input precision | 17.4% | 85%+ |
-| Edit rate | 92.3% | report |
-| Cost / Time | $0.0000 / 26.7s | report |
-
-### Questionnaire B (held-out, 40 questions, `stub / stub`)
+### Questionnaire A (calibration set, 60 questions)
 
 | Metric | Value | Target |
 | --- | --- | --- |
-| Answer correctness | 51.4% | 90%+ |
-| Citation correctness | 71.4% | 90%+ |
+| Answer correctness | 84.6% (below target) | 90%+ |
+| Citation correctness | 92.3% | 90%+ |
 | Stale-version citations | 0 | 0 |
 | Needs-input recall | 100.0% | 100% |
-| Needs-input precision | 35.7% | 85%+ |
+| Needs-input precision | 88.9% | 85%+ |
+| Edit rate | 21.2% | report |
+| Cost / Time | $0.0000 / 92.3s | report |
+
+### Questionnaire B (held-out, 40 questions)
+
+| Metric | Value | Target |
+| --- | --- | --- |
+| Answer correctness | 80.0% (below target) | 90%+ |
+| Citation correctness | 100.0% | 90%+ |
+| Stale-version citations | 0 | 0 |
+| Needs-input recall | 100.0% | 100% |
+| Needs-input precision | 100.0% | 85%+ |
 | Reuse rate | 62.5% | report |
-| Cost / Time | $0.0000 / 3.4s | report |
+| Cost / Time | $0.0000 / 16.1s | report |
+
+Answer correctness missed the 90%+ target on A (84.6%) and B (80.0%) mainly because two-part yes/no questions in A were drafted as `text` instead of `yes`, and those `text` library entries were then reused on yes/no questions in B. Citation correctness, stale-version isolation, needs-input recall/precision, and staleness detection all met or exceeded their targets.
 
 ### Staleness check (`data-retention` v4)
 
@@ -86,7 +88,7 @@ Documentation: [Reviewer User Guide](docs/user-guide.md), [Production Notes](doc
 
 ## Limits and what a production version adds
 
-- **Current limits:** Single-tenant local setup, no SSO/user accounts, manual file upload (Excel and CSV questionnaires only; no Word/PDF questionnaires), and `evals/report.md` currently reflects the offline `stub` run until `make eval` is run with a live API key.
+- **Current limits:** Single-tenant local setup, no SSO/user accounts, and manual file upload (Excel and CSV questionnaires only; no Word/PDF questionnaires).
 - **Production additions:** OIDC/SAML SSO, Google Drive / SharePoint / Confluence policy connectors, managed Postgres + background worker queues, and tenant isolation (see [docs/production.md](docs/production.md)).
 
 ## About

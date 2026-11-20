@@ -509,3 +509,21 @@ $ make test
 ### Questions
 
 None.
+
+## 2026-11-20: Live OmniRoute run (`data.draft_sample` + `make eval`)
+
+- Configured `.env` (git-ignored) with `LLM_PROVIDER=openai`, `LLM_MODEL=auto/fast`,
+  `OPENAI_BASE_URL=http://localhost:20128/v1`.
+- `uv run python -m data.draft_sample`: 10/10 questions matched expected answers and citations
+  (`A-015` and `A-019` correctly returned `needs_input`; all 8 answerable questions cited the
+  exact current policy section).
+- `make eval` (`openai` / `auto/fast`):
+  - Questionnaire A: Answer correctness `84.6%` (below 90%+ target), Citation correctness `92.3%`,
+    Stale citations `0`, Needs-input recall `100.0%`, Needs-input precision `88.9%`, Edit rate
+    `21.2%`, Time `92.3s`.
+  - Questionnaire B: Answer correctness `80.0%` (below 90%+ target), Citation correctness `100.0%`,
+    Stale citations `0`, Needs-input recall `100.0%`, Needs-input precision `100.0%`, Reuse rate
+    `62.5%`, Time `16.1s`.
+  - Staleness check (`data-retention` v4): `4 / 4` (`100.0%`).
+- Updated `README.md` with the live `evals/report.md` numbers and noted the missed Answer
+  correctness target per rules section 10.
