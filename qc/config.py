@@ -33,6 +33,7 @@ class Settings(BaseSettings):
     llm_provider: str = "stub"
     llm_model: str = ""
     openai_api_key: str = ""
+    openai_base_url: str = ""
     anthropic_api_key: str = ""
     max_eval_cost_usd: float = 1.00
 

@@ -67,12 +67,21 @@ class _SpendTracker:
 
 
 class OpenAILLM(_SpendTracker):
-    def __init__(self, model: str, api_key: str | None = None, max_cost_usd: float | None = None):
+    def __init__(
+        self,
+        model: str,
+        api_key: str | None = None,
+        base_url: str | None = None,
+        max_cost_usd: float | None = None,
+    ):
         super().__init__(max_cost_usd)
         from openai import OpenAI
 
         self.model = model
-        self._client = OpenAI(api_key=api_key or os.environ.get("OPENAI_API_KEY") or None)
+        self._client = OpenAI(
+            api_key=api_key or os.environ.get("OPENAI_API_KEY") or None,
+            base_url=base_url or os.environ.get("OPENAI_BASE_URL") or None,
+        )
 
     def complete(
         self, system: str, messages: list[dict], *, max_tokens: int = 800
@@ -254,6 +263,7 @@ def get_llm(
         return OpenAILLM(
             model=mdl,
             api_key=settings.openai_api_key or None,
+            base_url=settings.openai_base_url or None,
             max_cost_usd=settings.max_eval_cost_usd,
         )
     if prov == "anthropic":
